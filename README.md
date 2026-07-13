@@ -33,18 +33,17 @@ Run the installer, answer two simple questions, and your entire Termux environme
 - Complete Termux customization
 - Automatic ASCII banner creation
 - Personalized username & nickname
-- Custom command prompt (PS1)
-- Modern color themes (5 built-in)
-- Welcome message system
-- Automatic file organization
+- 6 command prompt styles (PS1)
+- 6 modern color themes
+- Welcome message (MOTD) system
 - Shell environment configuration
-- Custom alias management
-- Essential package installation
-- Dependency verification
+- 3 alias presets + custom aliases
+- Essential package installer
 - Configuration backup & restore
 - Built-in update system
 - Interactive terminal UI
 - Professional animations
+- Auto mode for one-click setup
 
 </td>
 </tr>
@@ -85,15 +84,14 @@ nexus
  NEXUS TERMUX CUSTOMIZER 2026
 ========================================
 
-[1] Personalizar meu terminal
-[2] Escolher tema visual
-[3] Criar banner personalizado
-[4] Gerenciar configuracoes
-[5] Fazer backup
-[6] Restaurar configuracao
-[7] Atualizar ferramenta
-[8] Sobre o projeto
-[0] Sair
+[1]  Personalizacao manual do terminal
+[2]  Criar banner personalizado
+[3]  Escolher temas
+[4]  Configuracoes avancadas
+[5]  Modo automatico (tudo)
+[6]  Sobre o projeto
+
+[0]  Sair
 ```
 
 ---
@@ -107,6 +105,7 @@ nexus
 | **Ocean** | Deep blue ocean tones |
 | **Matrix** | Classic green matrix |
 | **Sunset** | Red and orange warm |
+| **Dracula** | Purple and cyan dark |
 
 ---
 
@@ -115,19 +114,11 @@ nexus
 ```
 NEXUS-TERMUX-CUSTOMIZER-2026/
 ├── install.sh              # Installation script
-├── main.sh                 # Main entry point
-├── modules/
-│   ├── theme.sh            # Theme management
-│   ├── banner.sh           # Banner creator
-│   ├── setup.sh            # Terminal setup
-│   ├── config_manager.sh   # Configuration manager
-│   ├── backup.sh           # Backup system
-│   ├── restore.sh          # Restore system
-│   └── update.sh           # Update system
+├── main.sh                 # All-in-one main tool
 ├── assets/
 │   └── screenshots/        # Screenshots
-├── config/                 # Configuration files
-├── backups/                # Backup files
+├── config/                 # Runtime config files
+├── backups/                # Backup storage
 ├── banners/                # Custom banners
 └── README.md               # Documentation
 ```
@@ -147,15 +138,13 @@ NEXUS-TERMUX-CUSTOMIZER-2026/
 
 ## What It Does
 
-On first run, NEXUS asks for your name and nickname. Then it automatically:
+On first run, NEXUS asks for your name and nickname. Then you can:
 
-1. Installs essential packages (neofetch, tree, htop, figlet, etc.)
-2. Configures your shell with optimized settings
-3. Creates custom aliases for faster workflow
-4. Applies your chosen color theme
-5. Sets up a personalized PS1 prompt
-6. Generates a custom ASCII banner
-7. Configures history and environment variables
+1. **Manual mode** — Choose your name, nickname, and PS1 style
+2. **Banner creator** — Generate a personalized ASCII banner (4 styles + custom)
+3. **Theme selector** — Pick from 6 color themes (Cyber, Neon, Ocean, Matrix, Sunset, Dracula)
+4. **Advanced settings** — Manage aliases, install packages, configure PS1, MOTD, backup/restore, update
+5. **Auto mode** — One-click setup with Cyber theme, essential aliases, classic PS1, and welcome MOTD
 
 ---
 
@@ -163,7 +152,7 @@ On first run, NEXUS asks for your name and nickname. Then it automatically:
 
 ```bash
 # Make scripts executable
-chmod +x install.sh main.sh modules/*.sh
+chmod +x install.sh main.sh
 
 # Run directly
 ./main.sh
