@@ -16,10 +16,6 @@
 
 ---
 
-
-<img width="717" height="1600" alt="WhatsApp Image 2026-07-13 at 18 28 43" src="https://github.com/user-attachments/assets/ff6053b7-dd88-41b2-9e7d-3ccceeb63510" />
-
-
 ## Overview
 
 **NEXUS TERMUX CUSTOMIZER 2026** is a modern, complete terminal customization tool built exclusively for **Termux on Android**. It transforms your mobile terminal into a personalized, organized, and futuristic environment.

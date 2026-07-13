@@ -25,13 +25,7 @@ RED='\033[0;31m'
 WHITE='\033[1;37m'
 DARK='\033[2;37m'
 BOLD='\033[1m'
-DIM='\033[2m'
 NC='\033[0m'
-
-BG_CYAN='\033[46m'
-BG_PURPLE='\033[45m'
-BG_BLUE='\033[44m'
-FG_BLACK='\033[30m'
 
 # ============================================================
 #   UTILITY FUNCTIONS
@@ -39,39 +33,6 @@ FG_BLACK='\033[30m'
 
 clear_screen() {
     printf "\033c"
-}
-
-sleep_anim() {
-    sleep 0.3
-}
-
-spinner() {
-    local pid=$1
-    local msg=$2
-    local spin='⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏'
-    local i=0
-
-    while kill -0 "$pid" 2>/dev/null; do
-        printf "\r  ${CYAN}${spin:i++%${#spin}:1}${NC} ${msg}"
-        sleep 0.1
-    done
-    printf "\r  ${GREEN}[OK]${NC} ${msg}\n"
-}
-
-loading_bar() {
-    local duration=$1
-    local msg=$2
-    local width=30
-    local filled=0
-
-    echo -ne "\n  ${CYAN}$msg${NC}\n"
-    echo -ne "  ["
-    while [ $filled -lt $width ]; do
-        printf "█"
-        ((filled++))
-        sleep $(echo "scale=3; $duration / $width" | bc 2>/dev/null || echo "0.05")
-    done
-    echo -e "] ${GREEN}100%${NC}\n"
 }
 
 load_settings() {
@@ -112,24 +73,9 @@ CONF
 # ============================================================
 
 show_banner() {
-    local primary="${CYAN}"
-    local secondary="${PURPLE}"
-
-    if [ -f "$CONFIG_DIR/settings.conf" ]; then
-        case "$NEXUS_COLOR_PRIMARY" in
-            cyan)    primary="${CYAN}" ;;
-            purple)  primary="${PURPLE}" ;;
-            blue)    primary="${BLUE}" ;;
-            green)   primary="${GREEN}" ;;
-            yellow)  primary="${YELLOW}" ;;
-            red)     primary="${RED}" ;;
-            *)       primary="${CYAN}" ;;
-        esac
-    fi
-
     clear_screen
     echo ""
-    echo -e "${primary}"
+    echo -e "${CYAN}"
     cat << 'BANNER'
     ███╗   ██╗███████╗██╗  ██╗██╗   ██╗███████╗      ███████╗██╗  ██╗███████╗███╗   ██╗████████╗
     ████╗  ██║██╔════╝╚██╗██╔╝██║   ██║██╔════╝      ██╔════╝██║  ██║██╔════╝████╗  ██║╚══██╔══╝
@@ -139,9 +85,9 @@ show_banner() {
     ╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝      ╚══════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═══╝   ╚═╝
 BANNER
     echo -e "${NC}"
-    echo -e "  ${secondary}╔═══════════════════════════════════════════════════════════╗${NC}"
-    echo -e "  ${secondary}║${NC}  ${WHITE}T E R M U X   C U S T O M I Z E R   2 0 2 6${NC}              ${secondary}║${NC}"
-    echo -e "  ${secondary}╚═══════════════════════════════════════════════════════════╝${NC}"
+    echo -e "  ${PURPLE}╔═══════════════════════════════════════════════════════════╗${NC}"
+    echo -e "  ${PURPLE}║${NC}  ${WHITE}T E R M U X   C U S T O M I Z E R   2 0 2 6${NC}              ${PURPLE}║${NC}"
+    echo -e "  ${PURPLE}╚═══════════════════════════════════════════════════════════╝${NC}"
     echo ""
     echo -e "  ${DARK}Desenvolvido por: ${WHITE}Brian Lewis${NC}"
     echo -e "  ${DARK}Instagram: ${PURPLE}@Brian_lewis_2${NC}"
@@ -183,21 +129,33 @@ show_welcome() {
 # ============================================================
 
 show_menu() {
-    echo -e "  ${PURPLE}┌─────────────────────────────────────────────────────┐${NC}"
-    echo -e "  ${PURPLE}│${NC}                 ${WHITE}M A I N   M E N U${NC}                    ${PURPLE}│${NC}"
-    echo -e "  ${PURPLE}├─────────────────────────────────────────────────────┤${NC}"
-    echo -e "  ${PURPLE}│${NC}                                                     ${PURPLE}│${NC}"
-    echo -e "  ${PURPLE}│${NC}  ${CYAN}[1]${NC}  ${WHITE}Personalizar meu terminal${NC}                  ${PURPLE}│${NC}"
-    echo -e "  ${PURPLE}│${NC}  ${CYAN}[2]${NC}  ${WHITE}Escolher tema visual${NC}                       ${PURPLE}│${NC}"
-    echo -e "  ${PURPLE}│${NC}  ${CYAN}[3]${NC}  ${WHITE}Criar banner personalizado${NC}                 ${PURPLE}│${NC}"
-    echo -e "  ${PURPLE}│${NC}  ${CYAN}[4]${NC}  ${WHITE}Gerenciar configuracoes${NC}                    ${PURPLE}│${NC}"
-    echo -e "  ${PURPLE}│${NC}  ${CYAN}[5]${NC}  ${WHITE}Fazer backup${NC}                               ${PURPLE}│${NC}"
-    echo -e "  ${PURPLE}│${NC}  ${CYAN}[6]${NC}  ${WHITE}Restaurar configuracao${NC}                     ${PURPLE}│${NC}"
-    echo -e "  ${PURPLE}│${NC}  ${CYAN}[7]${NC}  ${WHITE}Atualizar ferramenta${NC}                       ${PURPLE}│${NC}"
-    echo -e "  ${PURPLE}│${NC}  ${CYAN}[8]${NC}  ${WHITE}Sobre o projeto${NC}                            ${PURPLE}│${NC}"
-    echo -e "  ${PURPLE}│${NC}  ${RED}[0]${NC}  ${DARK}Sair${NC}                                       ${PURPLE}│${NC}"
-    echo -e "  ${PURPLE}│${NC}                                                     ${PURPLE}│${NC}"
-    echo -e "  ${PURPLE}└─────────────────────────────────────────────────────┘${NC}"
+    echo -e "  ${PURPLE}╔═══════════════════════════════════════════════════════╗${NC}"
+    echo -e "  ${PURPLE}║${NC}                 ${WHITE}M A I N   M E N U${NC}                     ${PURPLE}║${NC}"
+    echo -e "  ${PURPLE}╠═══════════════════════════════════════════════════════╣${NC}"
+    echo -e "  ${PURPLE}║${NC}                                                       ${PURPLE}║${NC}"
+    echo -e "  ${PURPLE}║${NC}  ${WHITE}[PERSONALIZACAO]${NC}                                     ${PURPLE}║${NC}"
+    echo -e "  ${PURPLE}║${NC}  ${CYAN}[1]${NC}  ${WHITE}Configuracao completa do terminal${NC}            ${PURPLE}║${NC}"
+    echo -e "  ${PURPLE}║${NC}  ${CYAN}[2]${NC}  ${WHITE}Escolher tema visual${NC}                         ${PURPLE}║${NC}"
+    echo -e "  ${PURPLE}║${NC}  ${CYAN}[3]${NC}  ${WHITE}Criar banner personalizado${NC}                   ${PURPLE}║${NC}"
+    echo -e "  ${PURPLE}║${NC}  ${CYAN}[4]${NC}  ${WHITE}Personalizar prompt (PS1)${NC}                    ${PURPLE}║${NC}"
+    echo -e "  ${PURPLE}║${NC}  ${CYAN}[5]${NC}  ${WHITE}Configurar cores do terminal${NC}                 ${PURPLE}║${NC}"
+    echo -e "  ${PURPLE}║${NC}                                                       ${PURPLE}║${NC}"
+    echo -e "  ${PURPLE}║${NC}  ${WHITE}[FERRAMENTAS]${NC}                                      ${PURPLE}║${NC}"
+    echo -e "  ${PURPLE}║${NC}  ${CYAN}[6]${NC}  ${WHITE}Gerenciar aliases personalizados${NC}             ${PURPLE}║${NC}"
+    echo -e "  ${PURPLE}║${NC}  ${CYAN}[7]${NC}  ${WHITE}Instalar pacotes essenciais${NC}                  ${PURPLE}║${NC}"
+    echo -e "  ${PURPLE}║${NC}  ${CYAN}[8]${NC}  ${WHITE}Configurar shortcuts de teclado${NC}              ${PURPLE}║${NC}"
+    echo -e "  ${PURPLE}║${NC}  ${CYAN}[9]${NC}  ${WHITE}Editor de MOTD (mensagem ao iniciar)${NC}         ${PURPLE}║${NC}"
+    echo -e "  ${PURPLE}║${NC}                                                       ${PURPLE}║${NC}"
+    echo -e "  ${PURPLE}║${NC}  ${WHITE}[SISTEMA]${NC}                                          ${PURPLE}║${NC}"
+    echo -e "  ${PURPLE}║${NC}  ${CYAN}[10]${NC} ${WHITE}Gerenciar configuracoes${NC}                       ${PURPLE}║${NC}"
+    echo -e "  ${PURPLE}║${NC}  ${CYAN}[11]${NC} ${WHITE}Fazer backup${NC}                                  ${PURPLE}║${NC}"
+    echo -e "  ${PURPLE}║${NC}  ${CYAN}[12]${NC} ${WHITE}Restaurar configuracao${NC}                        ${PURPLE}║${NC}"
+    echo -e "  ${PURPLE}║${NC}  ${CYAN}[13]${NC} ${WHITE}Atualizar ferramenta${NC}                          ${PURPLE}║${NC}"
+    echo -e "  ${PURPLE}║${NC}  ${CYAN}[14]${NC} ${WHITE}Sobre o projeto${NC}                               ${PURPLE}║${NC}"
+    echo -e "  ${PURPLE}║${NC}                                                       ${PURPLE}║${NC}"
+    echo -e "  ${PURPLE}║${NC}  ${RED}[0]${NC}  ${DARK}Sair${NC}                                            ${PURPLE}║${NC}"
+    echo -e "  ${PURPLE}║${NC}                                                       ${PURPLE}║${NC}"
+    echo -e "  ${PURPLE}╚═══════════════════════════════════════════════════════╝${NC}"
     echo ""
     echo -ne "  ${CYAN}❯${NC} ${WHITE}Selecione uma opcao: ${NC}"
 }
@@ -236,11 +194,11 @@ ABOUT
     echo -e "  ${DARK}Instagram: ${PURPLE}@Brian_lewis_2${NC}"
     echo ""
     echo -e "  ${WHITE}Projeto desenvolvido para melhorar a experiencia${NC}"
-    echo -e "  ${WHITE}de usuarios Termux e Linux.${NC}"
+    echo -e "  ${WHITE}de usuarios Termux no Android.${NC}"
     echo ""
     echo -e "  ${CYAN}Version: ${WHITE}$NEXUS_VERSION${NC}"
     echo -e "  ${CYAN}License: ${WHITE}MIT${NC}"
-    echo -e "  ${CYAN}Platform: ${WHITE}Termux / Linux${NC}"
+    echo -e "  ${CYAN}Platform: ${WHITE}Termux (Android)${NC}"
     echo ""
     echo -e "  ${DARK}GitHub: https://github.com/brianlewislife-png/NEXUS-TERMUX-CUSTOMIZER-2026${NC}"
     echo ""
@@ -332,11 +290,17 @@ main() {
             1)  load_module "setup.sh" ;;
             2)  load_module "theme.sh" ;;
             3)  load_module "banner.sh" ;;
-            4)  load_module "config_manager.sh" ;;
-            5)  load_module "backup.sh" ;;
-            6)  load_module "restore.sh" ;;
-            7)  load_module "update.sh" ;;
-            8)  show_about ;;
+            4)  load_module "ps1.sh" ;;
+            5)  load_module "colors.sh" ;;
+            6)  load_module "aliases.sh" ;;
+            7)  load_module "packages.sh" ;;
+            8)  load_module "shortcuts.sh" ;;
+            9)  load_module "motd.sh" ;;
+            10) load_module "config_manager.sh" ;;
+            11) load_module "backup.sh" ;;
+            12) load_module "restore.sh" ;;
+            13) load_module "update.sh" ;;
+            14) show_about ;;
             0)
                 clear_screen
                 echo ""
