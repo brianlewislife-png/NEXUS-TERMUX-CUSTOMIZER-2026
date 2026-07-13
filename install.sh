@@ -112,10 +112,24 @@ echo -e "${YELLOW}[*] Baixando Nexus Termux Customizer...${NC}"
 echo ""
 
 if [ -d "$INSTALL_DIR" ]; then
-    echo -e "  ${DARK}[INFO]${NC} Diretorio ja existe. Atualizando..."
-    cd "$INSTALL_DIR" && git pull > /dev/null 2>&1
+    echo -e "  ${DARK}[INFO]${NC} Diretorio ja existe."
+    if [ -d "$INSTALL_DIR/.git" ]; then
+        echo -e "  ${DARK}[*]${NC} Atualizando..."
+        cd "$INSTALL_DIR" && git pull 2>&1 | while read -r line; do
+            echo -e "  ${DARK}  $line${NC}"
+        done
+    else
+        echo -e "  ${YELLOW}[AVISO]${NC} Nao e um repositorio git. Reinstalando..."
+        rm -rf "$INSTALL_DIR"
+        git clone "$REPO_URL" "$INSTALL_DIR" 2>&1 | while read -r line; do
+            echo -e "  ${DARK}  $line${NC}"
+        done
+    fi
 else
-    git clone "$REPO_URL" "$INSTALL_DIR" > /dev/null 2>&1
+    echo -e "  ${DARK}[*]${NC} Clonando repositorio..."
+    git clone "$REPO_URL" "$INSTALL_DIR" 2>&1 | while read -r line; do
+        echo -e "  ${DARK}  $line${NC}"
+    done
 fi
 
 if [ ! -d "$INSTALL_DIR" ]; then
@@ -126,10 +140,6 @@ fi
 
 chmod +x "$INSTALL_DIR/install.sh" 2>/dev/null
 chmod +x "$INSTALL_DIR/main.sh" 2>/dev/null
-
-if [ -d "$INSTALL_DIR/modules" ]; then
-    chmod +x "$INSTALL_DIR/modules/"*.sh 2>/dev/null
-fi
 
 echo -e "  ${GREEN}[OK]${NC} Projeto instalado em: $INSTALL_DIR"
 
@@ -174,28 +184,30 @@ fi
 echo -e "  ${GREEN}[OK]${NC} Comando 'nexus' criado"
 
 # ============================================================
-#   CREATE DEFAULT CONFIG
+#   CREATE DEFAULT CONFIG (only if not exists)
 # ============================================================
 
 echo ""
-echo -e "${YELLOW}[*] Criando configuracoes iniciais...${NC}"
+echo -e "${YELLOW}[*] Verificando configuracoes...${NC}"
 echo ""
 
 mkdir -p "$INSTALL_DIR/config"
 mkdir -p "$INSTALL_DIR/backups"
 mkdir -p "$INSTALL_DIR/banners"
 
-cat > "$INSTALL_DIR/config/settings.conf" << 'CONF'
+if [ ! -f "$INSTALL_DIR/config/settings.conf" ]; then
+    cat > "$INSTALL_DIR/config/settings.conf" << 'CONF'
 NEXUS_VERSION="2.0.0"
 NEXUS_THEME="cyber"
 NEXUS_USERNAME=""
 NEXUS_NICKNAME=""
-NEXUS_BANNER="default"
 NEXUS_PS1="cyber"
 NEXUS_MOTD="welcome"
 CONF
-
-echo -e "  ${GREEN}[OK]${NC} Configuracoes criadas"
+    echo -e "  ${GREEN}[OK]${NC} Configuracoes criadas"
+else
+    echo -e "  ${GREEN}[OK]${NC} Configuracoes ja existem. Mantidas."
+fi
 
 # ============================================================
 #   INSTALLATION COMPLETE - LAUNCH MAIN
