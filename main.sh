@@ -242,7 +242,7 @@ ABOUT
     echo -e "  ${CYAN}License: ${WHITE}MIT${NC}"
     echo -e "  ${CYAN}Platform: ${WHITE}Termux / Linux${NC}"
     echo ""
-    echo -e "  ${DARK}GitHub: https://github.com/ivisconfessor/nexus-termux-customizer${NC}"
+    echo -e "  ${DARK}GitHub: https://github.com/brianlewislife-png/NEXUS-TERMUX-CUSTOMIZER-2026${NC}"
     echo ""
     echo -ne "\n  ${DARK}Pressione [ENTER] para voltar...${NC}"
     read -r

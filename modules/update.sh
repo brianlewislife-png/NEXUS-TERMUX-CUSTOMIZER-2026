@@ -8,7 +8,7 @@
 
 NEXUS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 CONFIG_DIR="$NEXUS_DIR/config"
-REPO_URL="https://github.com/ivisconfessor/nexus-termux-customizer"
+REPO_URL="https://github.com/brianlewislife-png/NEXUS-TERMUX-CUSTOMIZER-2026.git"
 
 CYAN='\033[0;36m'
 PURPLE='\033[0;35m'

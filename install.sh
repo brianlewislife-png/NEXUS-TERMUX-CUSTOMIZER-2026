@@ -9,7 +9,7 @@
 set -e
 
 INSTALL_DIR="$HOME/.nexus-termux"
-REPO_URL="https://github.com/ivisconfessor/nexus-termux-customizer"
+REPO_URL="https://github.com/brianlewislife-png/NEXUS-TERMUX-CUSTOMIZER-2026.git"
 
 # Colors
 CYAN='\033[0;36m'

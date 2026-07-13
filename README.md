@@ -1,16 +1,15 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0a0e1a,20:0f172a,40:1e1b4b,60:0f172a,80:0c1222,100:0a0e1a&height=240&section=header&text=NEXUS%20TERMUX%20CUSTOMIZER&fontSize=38&fontColor=00D4FF&fontAlignY=36&animation=fadeIn&desc=2026%20%E2%80%A2%20Terminal%20Customization%20Tool&descSize=18&descColor=C084FC&descAlignY=62&descAlign=50" width="100%"/>
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0a0e1a,20:0f172a,40:1e1b4b,60:0f172a,80:0c1222,100:0a0e1a&height=240&section=header&text=NEXUS%20TERMUX%20CUSTOMIZER&fontSize=38&fontColor=00D4FF&fontAlignY=36&animation=fadeIn&desc=2026%20%E2%80%A2%20Termux%20Terminal%20Customization&descSize=18&descColor=C084FC&descAlignY=62&descAlign=50" width="100%"/>
 
 <br/>
 
-<img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=600&size=20&duration=3000&pause=1000&color=00D4FF&center=true&vCenter=true&multiline=true&repeat=true&width=600&height=90&lines=%F0%9F%96%A5%EF%B8%8F+Transform+your+terminal+experience;%E2%9A%A1+Modern+%C2%B7+Fast+%C2%B7+Customizable;%F0%9F%94%A7+Bash+%7C+Termux+%7C+Linux" alt="Typing SVG" />
+<img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=600&size=20&duration=3000&pause=1000&color=00D4FF&center=true&vCenter=true&multiline=true&repeat=true&width=600&height=90&lines=%F0%9F%96%A5%EF%B8%8F+Transform+your+Termux+experience;%E2%9A%A1+Modern+%C2%B7+Fast+%C2%B7+Customizable;%F0%9F%94%A7+Built+for+Termux+on+Android" alt="Typing SVG" />
 
 <br/>
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-00D4FF?style=for-the-badge&logo=github&logoColor=white)](https://opensource.org/licenses/MIT)
-[![Platform: Termux](https://img.shields.io/badge/Platform-Termux-00D4FF?style=for-the-badge&logo=android&logoColor=white)](https://termux.dev)
-[![Platform: Linux](https://img.shields.io/badge/Platform-Linux-9333EA?style=for-the-badge&logo=linux&logoColor=white)](https://www.linux.org)
+[![Platform: Termux](https://img.shields.io/badge/Platform-Termux%20(Android)-00D4FF?style=for-the-badge&logo=android&logoColor=white)](https://termux.dev)
 [![Shell: Bash](https://img.shields.io/badge/Shell-Bash-00C853?style=for-the-badge&logo=gnubash&logoColor=white)](https://www.gnu.org/software/bash/)
 
 </div>
@@ -19,9 +18,9 @@
 
 ## Overview
 
-**NEXUS TERMUX CUSTOMIZER 2026** is a modern, complete terminal customization tool for Termux and Linux environments. It transforms a simple terminal into a personalized, organized, and futuristic experience.
+**NEXUS TERMUX CUSTOMIZER 2026** is a modern, complete terminal customization tool built exclusively for **Termux on Android**. It transforms your mobile terminal into a personalized, organized, and futuristic environment.
 
-Run the installer, answer two simple questions, and your entire environment is automatically personalized.
+Run the installer, answer two simple questions, and your entire Termux environment is automatically personalized.
 
 ---
 
@@ -35,7 +34,7 @@ Run the installer, answer two simple questions, and your entire environment is a
 - Automatic ASCII banner creation
 - Personalized username & nickname
 - Custom command prompt (PS1)
-- Modern color themes
+- Modern color themes (5 built-in)
 - Welcome message system
 - Automatic file organization
 - Shell environment configuration
@@ -55,12 +54,17 @@ Run the installer, answer two simple questions, and your entire environment is a
 
 ## Quick Install
 
+Open **Termux** and run:
+
 ```bash
+# Install git if you don't have it
+pkg install git
+
 # Clone the repository
-git clone https://github.com/ivisconfessor/nexus-termux-customizer.git
+git clone https://github.com/brianlewislife-png/NEXUS-TERMUX-CUSTOMIZER-2026.git
 
 # Enter the directory
-cd nexus-termux-customizer
+cd NEXUS-TERMUX-CUSTOMIZER-2026
 
 # Run the installer
 bash install.sh
@@ -109,7 +113,7 @@ nexus
 ## Project Structure
 
 ```
-nexus-termux-customizer/
+NEXUS-TERMUX-CUSTOMIZER-2026/
 ├── install.sh              # Installation script
 ├── main.sh                 # Main entry point
 ├── modules/
@@ -132,10 +136,12 @@ nexus-termux-customizer/
 
 ## Requirements
 
+- **Termux** (latest version from F-Droid)
 - **Bash** 4.0+
 - **Git**
 - **curl** or **wget**
-- Termux (Android) or Linux distribution
+
+> Download Termux: [F-Droid](https://f-droid.org/en/packages/com.termux/) or [GitHub Releases](https://github.com/termux/termux-app/releases)
 
 ---
 
@@ -181,7 +187,7 @@ This project is licensed under the MIT License.
 
 **Developed by Brian Lewis**
 
-[![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/ivisconfessor)
+[![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/brianlewislife-png)
 [![Instagram](https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white)](https://instagram.com/Brian_lewis_2)
 
 <br/>
