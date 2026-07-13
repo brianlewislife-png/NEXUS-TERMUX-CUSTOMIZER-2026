@@ -50,9 +50,24 @@ if [ -d "/data/data/com.termux" ]; then
 fi
 
 # ============================================================
-#   INSTALL DEPENDENCIES
+#   IF ALREADY INSTALLED, JUST LAUNCH
 # ============================================================
 
+if [ -f "$INSTALL_DIR/main.sh" ]; then
+    echo -e "  ${GREEN}[OK]${NC} Nexus ja esta instalado!"
+    echo ""
+    sleep 1
+    exec bash "$INSTALL_DIR/main.sh"
+fi
+
+# ============================================================
+#   FIRST TIME INSTALL
+# ============================================================
+
+echo -e "${YELLOW}[*] Instalando Nexus Termux Customizer...${NC}"
+echo ""
+
+# --- Dependencies ---
 echo -e "${YELLOW}[*] Verificando dependencias...${NC}"
 echo ""
 
@@ -77,10 +92,7 @@ for dep in $DEPS; do
     fi
 done
 
-# ============================================================
-#   INSTALL OPTIONAL PACKAGES
-# ============================================================
-
+# --- Optional packages ---
 echo ""
 echo -e "${YELLOW}[*] Instalando pacotes opcionais...${NC}"
 echo ""
@@ -103,36 +115,13 @@ for pkg in $OPT_PKG; do
     fi
 done
 
-# ============================================================
-#   CLONE / UPDATE PROJECT
-# ============================================================
-
+# --- Clone repo ---
 echo ""
 echo -e "${YELLOW}[*] Baixando Nexus Termux Customizer...${NC}"
 echo ""
 
-if [ -d "$INSTALL_DIR" ]; then
-    echo -e "  ${DARK}[INFO]${NC} Diretorio ja existe."
-    if [ -d "$INSTALL_DIR/.git" ]; then
-        echo -e "  ${DARK}[*]${NC} Atualizando..."
-        cd "$INSTALL_DIR" && git pull 2>&1 | while read -r line; do
-            echo -e "  ${DARK}  $line${NC}"
-        done
-    else
-        echo -e "  ${YELLOW}[AVISO]${NC} Nao e um repositorio git. Reinstalando..."
-        rm -rf "$INSTALL_DIR"
-        git clone "$REPO_URL" "$INSTALL_DIR" 2>&1 | while read -r line; do
-            echo -e "  ${DARK}  $line${NC}"
-        done
-    fi
-else
-    echo -e "  ${DARK}[*]${NC} Clonando repositorio..."
-    git clone "$REPO_URL" "$INSTALL_DIR" 2>&1 | while read -r line; do
-        echo -e "  ${DARK}  $line${NC}"
-    done
-fi
-
-if [ ! -d "$INSTALL_DIR" ]; then
+echo -e "  ${DARK}[*]${NC} Clonando repositorio..."
+if ! git clone "$REPO_URL" "$INSTALL_DIR" 2>&1; then
     echo -e "  ${RED}[ERRO]${NC} Falha ao baixar o projeto."
     echo -e "  ${DARK}Verifique sua conexao com a internet.${NC}"
     exit 1
@@ -143,15 +132,11 @@ chmod +x "$INSTALL_DIR/main.sh" 2>/dev/null
 
 echo -e "  ${GREEN}[OK]${NC} Projeto instalado em: $INSTALL_DIR"
 
-# ============================================================
-#   CREATE NEXUS COMMAND
-# ============================================================
-
+# --- Create nexus command ---
 echo ""
 echo -e "${YELLOW}[*] Criando comando 'nexus'...${NC}"
 echo ""
 
-# Create a wrapper script in a PATH-accessible location
 NEXUS_BIN="$HOME/.nexus-bin"
 mkdir -p "$NEXUS_BIN"
 
@@ -161,7 +146,6 @@ exec bash "$INSTALL_DIR/main.sh" "\$@"
 WRAPPER
 chmod +x "$NEXUS_BIN/nexus"
 
-# Add to PATH if not already there
 SHELL_RC=""
 [ -f "$HOME/.bashrc" ] && SHELL_RC="$HOME/.bashrc"
 [ -f "$HOME/.zshrc" ] && SHELL_RC="$HOME/.zshrc"
@@ -172,31 +156,25 @@ if [ -n "$SHELL_RC" ]; then
         echo "# Nexus Termux Customizer 2026" >> "$SHELL_RC"
         echo 'export PATH="$HOME/.nexus-bin:$PATH"' >> "$SHELL_RC"
     fi
-    # Source it for current session
     export PATH="$HOME/.nexus-bin:$PATH"
 fi
 
-# Also try to link to Termux PREFIX/bin
 if [ "$IS_TERMUX" -eq 1 ] && [ -d "$PREFIX/bin" ]; then
     ln -sf "$NEXUS_BIN/nexus" "$PREFIX/bin/nexus" 2>/dev/null
 fi
 
 echo -e "  ${GREEN}[OK]${NC} Comando 'nexus' criado"
 
-# ============================================================
-#   CREATE DEFAULT CONFIG (only if not exists)
-# ============================================================
-
+# --- Create default config ---
 echo ""
-echo -e "${YELLOW}[*] Verificando configuracoes...${NC}"
+echo -e "${YELLOW}[*] Criando configuracoes...${NC}"
 echo ""
 
 mkdir -p "$INSTALL_DIR/config"
 mkdir -p "$INSTALL_DIR/backups"
 mkdir -p "$INSTALL_DIR/banners"
 
-if [ ! -f "$INSTALL_DIR/config/settings.conf" ]; then
-    cat > "$INSTALL_DIR/config/settings.conf" << 'CONF'
+cat > "$INSTALL_DIR/config/settings.conf" << 'CONF'
 NEXUS_VERSION="2.0.0"
 NEXUS_THEME="cyber"
 NEXUS_USERNAME=""
@@ -204,15 +182,10 @@ NEXUS_NICKNAME=""
 NEXUS_PS1="cyber"
 NEXUS_MOTD="welcome"
 CONF
-    echo -e "  ${GREEN}[OK]${NC} Configuracoes criadas"
-else
-    echo -e "  ${GREEN}[OK]${NC} Configuracoes ja existem. Mantidas."
-fi
 
-# ============================================================
-#   INSTALLATION COMPLETE - LAUNCH MAIN
-# ============================================================
+echo -e "  ${GREEN}[OK]${NC} Configuracoes criadas"
 
+# --- Done ---
 echo ""
 echo -e "${CYAN}========================================${NC}"
 echo -e "${GREEN}  INSTALACAO COMPLETA!${NC}"
@@ -226,5 +199,4 @@ echo ""
 
 sleep 2
 
-# LAUNCH THE MAIN TOOL
 exec bash "$INSTALL_DIR/main.sh"
